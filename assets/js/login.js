@@ -9,10 +9,16 @@ $(function() {
         pwd: function(value, item) {
             // value 表示输入域的值 
             // item 表示对应输入框的DOM元素
-            var reg = /^\d{6}$/;
+            var reg = /^\d{6,}$/;
             if (!reg.test(value)) {
                 // 如果输入的值不是6位数字,就进行提示
                 return "密码必须为6位以上的数字"
+            }
+        },
+        samepwd: function(value, item) {
+            var prePwd = $("#registerForm input[type=password]").eq(0).val();
+            if (prePwd !== value) {
+                return "两次输入的密码不一致"
             }
         }
     })
@@ -27,9 +33,12 @@ $(function() {
             data: formData,
             success: function(res) {
                 if (res.status === 0) {
-                    location.href = "index.html"
+                    layer.msg('登录成功')
+                    setTimeout(function() {
+                        location.href = "index.html"
+                    }, 1000)
                 } else {
-                    confirm(res.message)
+                    layer.msg('用户名或密码错误')
                 }
             }
         })
@@ -42,18 +51,25 @@ $(function() {
             url: "http://ajax.frontend.itheima.net/api/reguser",
             data: formData,
             success: function(res) {
-
+                if (res.status === 0) {
+                    layer.msg(res.message)
+                    setTimeout(function() {
+                        $("#registerForm a").click()
+                    }, 1000)
+                } else {
+                    layer.msg(res.message)
+                }
             }
         })
     })
 
 
     $("#loginForm a").on("click", function() {
-        $("#loginForm").hide();
-        $("#registerForm").show();
+        $("#loginForm").hide()
+        $("#registerForm").show()
     })
     $("#registerForm a").on("click", function() {
-        $("#registerForm").hide();
-        $("#loginForm").show();
+        $("#registerForm").hide()
+        $("#loginForm").show()
     })
 })
