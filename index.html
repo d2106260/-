@@ -5,6 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>后台管理页面</title>
+    <script>
+        // 判断用户是否登录,如果没有登录,需要跳转到
+        var token = sessionStorage.getItem("mytoken")
+        if (!token) {
+            location.href = "login.html"
+        }
+    </script>
 </head>
 
 <body>

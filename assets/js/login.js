@@ -33,6 +33,7 @@ $(function() {
             data: formData,
             success: function(res) {
                 if (res.status === 0) {
+                    sessionStorage.setItem("mytoken", res.token)
                     layer.msg(res.message)
                     setTimeout(function() {
                         location.href = "index.html"
