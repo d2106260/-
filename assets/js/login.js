@@ -1,54 +1,49 @@
 $(function() {
-    // 登录表单的底部链接
-    $("#loginForm a").on("click", function() {
-        $("#loginForm").hide()
-        $("#registerForm").show()
+    // 基于Layui自定义表单验证规则
+    var form = layui.form;
+    form.verify({
+        // uname 表示验证规则的名称
+        // 第0项表示验证规则,第1项表示验证错误提示信息
+        uname: [/^[\S]{6,8}$/, "用户名必须是6-8位字符"]
     })
 
-    // 注册表单的底部链接
-    $("#registerForm a").on("click", function() {
-        $("#loginForm").show()
-        $("#registerForm").hide()
-    })
-
-
-    // 控制登录表单的提交
+    // 1. 监听表单提交的事件
     $("#loginForm").submit(function(e) {
         e.preventDefault()
         var formData = $(this).serialize()
         $.ajax({
             type: "post",
             url: "http://ajax.frontend.itheima.net/api/login",
-            formData,
-            success: function() {
+            data: formData,
+            success: function(res) {
                 if (res.status === 0) {
-                    localStorage.setItem("mytoken", res.token)
-                    location.href = "./index.html"
+                    location.href = "index.html"
                 } else {
-                    layer.msg(res.message)
+                    confirm(res.message)
                 }
             }
         })
     })
-
-
-
-    // 控制注册表单的提交
     $("#registerForm").submit(function(e) {
         e.preventDefault()
         var formData = $(this).serialize()
         $.ajax({
             type: "post",
             url: "http://ajax.frontend.itheima.net/api/reguser",
-            formData,
-            success: function() {
-                if (res.status === 0) {
-                    $('#registerForm a').click()
-                    layer.msg(res.message)
-                } else {
-                    layer.msg(res.message)
-                }
+            data: formData,
+            success: function(res) {
+
             }
         })
+    })
+
+
+    $("#loginForm a").on("click", function() {
+        $("#loginForm").hide();
+        $("#registerForm").show();
+    })
+    $("#registerForm a").on("click", function() {
+        $("#registerForm").hide();
+        $("#loginForm").show();
     })
 })
