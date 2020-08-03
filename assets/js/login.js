@@ -29,16 +29,16 @@ $(function() {
         var formData = $(this).serialize()
         $.ajax({
             type: "post",
-            url: "http://ajax.frontend.itheima.net/api/login",
+            url: "/api/login",
             data: formData,
             success: function(res) {
                 if (res.status === 0) {
-                    layer.msg('登录成功')
+                    layer.msg(res.message)
                     setTimeout(function() {
                         location.href = "index.html"
                     }, 1000)
                 } else {
-                    layer.msg('用户名或密码错误')
+                    layer.msg(res.message)
                 }
             }
         })
@@ -48,7 +48,7 @@ $(function() {
         var formData = $(this).serialize()
         $.ajax({
             type: "post",
-            url: "http://ajax.frontend.itheima.net/api/reguser",
+            url: "/api/reguser",
             data: formData,
             success: function(res) {
                 if (res.status === 0) {
