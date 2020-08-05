@@ -33,5 +33,6 @@ $(function() {
                 location.href = "login.html"
             }, 1000)
         });
+        $(this).parent().removeClass("layui-this")
     })
 })
